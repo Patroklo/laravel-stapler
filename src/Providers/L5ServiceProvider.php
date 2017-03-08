@@ -5,6 +5,7 @@ namespace Codesleeve\LaravelStapler\Providers;
 use Codesleeve\LaravelStapler\IlluminateConfig;
 use Codesleeve\Stapler\Stapler;
 use Codesleeve\LaravelStapler\Commands\FastenCommand;
+use Codesleeve\LaravelStapler\Services\ImageRefreshService;
 use Config;
 
 class L5ServiceProvider extends ServiceProvider
@@ -74,6 +75,17 @@ class L5ServiceProvider extends ServiceProvider
             $migrationsFolderPath = base_path().'/database/migrations';
 
             return new FastenCommand($app['view'], $app['files'], $migrationsFolderPath);
+        });
+    }
+
+    /**
+     * Register the image refresh service with the container.
+     */
+    protected function registerImageRefreshService()
+    {
+        $this->app->singleton('ImageRefreshService', function ($app)
+        {
+            return new ImageRefreshService($app);
         });
     }
 }
